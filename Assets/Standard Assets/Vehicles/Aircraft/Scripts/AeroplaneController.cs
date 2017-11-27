@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace UnityStandardAssets.Vehicles.Aeroplane
 {
@@ -42,6 +43,9 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
         private Rigidbody m_Rigidbody;
 	    WheelCollider[] m_WheelColliders;
 
+        public Text countText;
+        public Text winText;
+        private int count;
 
         private void Start()
         {
@@ -50,7 +54,11 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
             m_OriginalDrag = m_Rigidbody.drag;
             m_OriginalAngularDrag = m_Rigidbody.angularDrag;
 
-			for (int i = 0; i < transform.childCount; i++ )
+            count = 0;
+            SetCountText();
+            winText.text = "";
+
+            for (int i = 0; i < transform.childCount; i++ )
 			{
 				foreach (var componentsInChild in transform.GetChild(i).GetComponentsInChildren<WheelCollider>())
 				{
@@ -155,7 +163,7 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
             // override throttle if immobilized
             if (m_Immobilized)
             {
-                ThrottleInput = -0.5f;
+                ThrottleInput = -1000.0f;
             }
 
             // Adjust throttle based on throttle input (or immobilized state)
@@ -264,6 +272,43 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
         public void Reset()
         {
             m_Immobilized = false;
+        }
+
+        void OnTriggerEnter(Collider other)
+        {
+            if (other.gameObject.CompareTag("Pick Up"))
+            {
+                other.gameObject.SetActive(false);
+                count = count + 1;
+                SetCountText();
+            }
+            else if (other.gameObject.CompareTag("Terrain"))
+            {
+                Immobilize();
+                winText.text = "You Lose";
+            }
+            else if (other.gameObject.CompareTag("Finish Line"))
+            {
+                Immobilize();
+                m_Rigidbody.velocity = Vector3.zero;
+
+                winText.text = "Stage Finished";
+                m_Rigidbody.position = new Vector3(250,6,5);
+            }
+            else if (other.gameObject.CompareTag("StageTwoObjects"))
+            {
+                Immobilize();
+                winText.text = "You Lose";
+            }
+        }
+
+        void SetCountText()
+        {
+            countText.text = "Points: " + count.ToString();
+            if (count >= 10)
+            {
+                winText.text = "Well Done!";
+            }
         }
     }
 }
