@@ -7,6 +7,8 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
     [RequireComponent(typeof (AeroplaneController))]
     public class AeroplaneUserControl2Axis : MonoBehaviour
     {
+        public static float pitch;
+        public static float roll;
         // these max angles are only used on mobile, due to the way pitch and roll input are handled
         public float maxRollAngle = 80;
         public float maxPitchAngle = 80;
@@ -25,8 +27,33 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
         private void FixedUpdate()
         {
             // Read input for the pitch, yaw, roll and throttle of the aeroplane.
-            float roll = CrossPlatformInputManager.GetAxis("Horizontal");
-            float pitch = CrossPlatformInputManager.GetAxis("Vertical");
+            roll = CrossPlatformInputManager.GetAxis("Horizontal");
+            pitch = CrossPlatformInputManager.GetAxis("Vertical");
+            /*
+            Vector3 v = CrossPlatformInputManager.mousePosition;
+            Debug.Log(v.ToString());
+
+            float x1 = v.x;
+            float y1 = v.y;
+
+            if (x1 < 682)
+            {
+                x1 = x1 / 
+            }
+            else
+            {
+
+            }
+
+            if (y1 < 359)
+            {
+
+            }
+            else
+            {
+
+            }
+            */
             bool airBrakes = CrossPlatformInputManager.GetButton("Fire1");
 
             // auto throttle up, or down if braking.
@@ -35,6 +62,8 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
             AdjustInputForMobileControls(ref roll, ref pitch, ref throttle);
 #endif
             // Pass the input to the aeroplane
+            //Debug.Log("roll: " + roll);
+            //Debug.Log("pitch: " + pitch);
             m_Aeroplane.Move(roll, pitch, 0, throttle, airBrakes);
         }
 

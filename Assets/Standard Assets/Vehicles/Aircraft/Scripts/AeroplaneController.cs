@@ -46,13 +46,18 @@ namespace UnityStandardAssets.Vehicles.Aeroplane
         public Text countText;
         public Text winText;
         private int count;
+        
 
         private void Start()
         {
+            
             m_Rigidbody = GetComponent<Rigidbody>();
             // Store original drag settings, these are modified during flight.
             m_OriginalDrag = m_Rigidbody.drag;
             m_OriginalAngularDrag = m_Rigidbody.angularDrag;
+
+        
+            
 
             count = 0;
             SetCountText();
