@@ -1607,8 +1607,11 @@ public class KinectManager : MonoBehaviour
 		if(AllPlayersCalibrated)
 		{
 			Debug.Log("All players calibrated.");
-			
-			if(CalibrationText != null)
+
+            Time.timeScale = 1;
+
+
+            if (CalibrationText != null)
 			{
 				CalibrationText.GetComponent<GUIText>().text = "";
 			}
@@ -1670,7 +1673,9 @@ public class KinectManager : MonoBehaviour
 		// Try to replace that user!
 		Debug.Log("Waiting for users.");
 
-		if(CalibrationText != null)
+        Time.timeScale = 0;
+
+        if (CalibrationText != null)
 		{
 			CalibrationText.GetComponent<GUIText>().text = "WAITING FOR USERS";
 		}

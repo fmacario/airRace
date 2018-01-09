@@ -8,6 +8,10 @@ TagManager:
   - Terrain
   - Finish Line
   - StageTwoObjects
+  - Character
+  - WinText
+  - CountText
+  - StageText
   layers:
   - Default
   - TransparentFX

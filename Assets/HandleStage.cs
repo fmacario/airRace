@@ -17,7 +17,7 @@ public class HandleStage : MonoBehaviour {
 
     void OnCollisionEnter(Collision col)
     {
-        if (col.gameObject.name == "AircraftJet")
+        if (col.gameObject.name == "U_CharacterFront")
         {
             stageCounter++;
             if (stageCounter == 1)
